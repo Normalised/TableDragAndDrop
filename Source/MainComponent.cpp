@@ -27,22 +27,6 @@ void TrackTableModel::paintRowBackground(juce::Graphics& graphics, int rowNumber
     graphics.fillAll(juce::Colours::black);
 }
 
-void TrackTableModel::paintCell(juce::Graphics& graphics, int rowNumber, int columnId, int width, int height,
-                                bool rowIsSelected)
-{
-    if(rowNumber < tracks.size()) {
-        graphics.setColour(juce::Colours::white);
-        graphics.setFont(14.0f);
-
-        auto & track = tracks[rowNumber];
-        switch(columnId) {
-            case 1: graphics.drawText(track.artist, 0, 0, width, height, juce::Justification::centred, 1); break;
-            case 2: graphics.drawText(track.name, 0, 0, width, height, juce::Justification::centred, 1); break;
-            case 3: graphics.drawText(track.album, 0, 0, width, height, juce::Justification::centred, 1); break;
-        }
-    }
-}
-
 TrackTableModel::TrackTableModel()
 {
     TrackData giantSteps = {"John Coltrane", "Countdown", "Giant Steps"};
