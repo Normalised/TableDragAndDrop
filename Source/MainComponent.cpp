@@ -37,3 +37,28 @@ TrackTableModel::TrackTableModel()
     tracks.push_back(hardToEarn);
     tracks.push_back(quintessence);
 }
+juce::Component* TrackTableModel::refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected,
+                                                          juce::Component* existingComponentToUpdate)
+{
+    juce::Label* label = nullptr;
+    if(existingComponentToUpdate == nullptr) {
+        label = new juce::Label();
+        label->setInterceptsMouseClicks(false, false);
+    } else {
+        label = dynamic_cast<juce::Label*>(existingComponentToUpdate);
+    }
+    auto & track = tracks[rowNumber];
+    switch(columnId) {
+        case 1: label->setText(track.artist, juce::dontSendNotification); break;
+        case 2: label->setText(track.name, juce::dontSendNotification); break;
+        case 3: label->setText(track.album, juce::dontSendNotification); break;
+    }
+    return label;
+}
+juce::var TrackTableModel::getDragSourceDescription(const juce::SparseSet<int>& currentlySelectedRows)
+{
+    if(!currentlySelectedRows.isEmpty()) {
+        auto track = tracks[currentlySelectedRows[0]];
+        return track.name;
+    }
+}

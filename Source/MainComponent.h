@@ -43,39 +43,17 @@ struct TrackTableModel : juce::TableListBoxModel {
     void paintCell(juce::Graphics& graphics, int rowNumber, int columnId, int width, int height,
                    bool rowIsSelected) override {}
 
-    juce::var getDragSourceDescription(const juce::SparseSet<int>& currentlySelectedRows) override {
-        if(!currentlySelectedRows.isEmpty()) {
-            auto track = tracks[currentlySelectedRows[0]];
-            return track.name;
-        }
-    }
+    juce::var getDragSourceDescription(const juce::SparseSet<int>& currentlySelectedRows) override;
 
-    juce::Component * refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, juce::Component *existingComponentToUpdate) override {
-        juce::Label* label = nullptr;
-        if(existingComponentToUpdate == nullptr) {
-            label = new juce::Label();
-            label->setInterceptsMouseClicks(false, false);
-        } else {
-            label = dynamic_cast<juce::Label*>(existingComponentToUpdate);
-        }
-        auto & track = tracks[rowNumber];
-        switch(columnId) {
-            case 1: label->setText(track.artist, juce::dontSendNotification); break;
-            case 2: label->setText(track.name, juce::dontSendNotification); break;
-            case 3: label->setText(track.album, juce::dontSendNotification); break;
-        }
-        return label;
-    }
+    juce::Component * refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, juce::Component *existingComponentToUpdate) override;
     std::vector<TrackData> tracks;
 };
 
 class MainComponent : public juce::Component, public juce::DragAndDropContainer
 {
 public:
-    //==============================================================================
     MainComponent();
 
-    //==============================================================================
     void resized() override;
 
 private:
